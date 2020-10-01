@@ -1,4 +1,7 @@
-<p>Main layout works!</p>
-<button mat-raised-button color="primary">Basic</button>
+<button mat-raised-button color="primary" (click)="fetchRestaurants()">Pobierz restauracje</button>
+
+<ng-container *ngFor="let restaurant of restaurants">
+    <p>Restauracja: {{ restaurant.name }}, właściciel: {{ restaurant.owner }}</p>
+</ng-container>
 
 <router-outlet></router-outlet>

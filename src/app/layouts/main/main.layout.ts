@@ -1,30 +1,32 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { MenuItem } from './main.model';
+import { MenuItem, Restaurant } from './main.model';
 import * as fromApp from 'src/app/app.reducer';
-import { Subscription } from 'rxjs';
+import * as MainLayoutActions from './store/main-layout.actions';
 
 @Component({
   selector: 'app-main-layout',
   templateUrl: './main.layout.html',
   styleUrls: ['./main.layout.scss']
 })
-export class MainLayout implements OnInit, OnDestroy {
+export class MainLayout implements OnInit {
   menu: MenuItem[];
-
-  private subscription = new Subscription();
+  restaurants: Restaurant[];
+  isLoading: boolean;
 
   constructor(private store: Store<fromApp.AppState>) { }
 
   ngOnInit() {
-    this.subscription.add(
-      this.store.select('mainLayout').subscribe(mainLayout => this.menu = mainLayout.menu)
-    );
+    this.store.select('mainLayout').subscribe(mainLayout => {
+      this.menu = mainLayout.menu;
+      this.restaurants = mainLayout.restaurants;
+      this.isLoading = mainLayout.isLoading;
+    });
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
+  fetchRestaurants() {
+    this.store.dispatch(new MainLayoutActions.FetchRestaurants());
   }
 
 }
