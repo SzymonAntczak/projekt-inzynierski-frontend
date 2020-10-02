@@ -10,10 +10,8 @@ import { HttpLink } from 'apollo-angular/http';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import * as fromApp from './app.reducer';
+import { appEffects, appReducer } from './app-store';
 import { environment } from 'src/environments/environment';
-
-import { MainLayoutEffects } from './layouts/main/store/main-layout.effects';
 
 @NgModule({
   declarations: [
@@ -23,10 +21,8 @@ import { MainLayoutEffects } from './layouts/main/store/main-layout.effects';
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    StoreModule.forRoot(fromApp.appReducer),
-    EffectsModule.forRoot([
-      MainLayoutEffects
-    ]),
+    StoreModule.forRoot(appReducer),
+    EffectsModule.forRoot(appEffects),
     HttpClientModule
   ],
   providers: [

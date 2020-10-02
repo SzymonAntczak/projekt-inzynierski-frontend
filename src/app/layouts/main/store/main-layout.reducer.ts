@@ -1,15 +1,7 @@
+import { GET_RESTAURANT_LIST, GET_RESTAURANT_LIST_RESPONSE, MainLayoutActions } from './main-layout.actions';
+import { MainLayoutState } from './main-layout.model';
 
-import { MenuItem, Restaurant } from '../main.model';
-import * as MainLayoutActions from './main-layout.actions';
-
-export interface State {
-    menu: MenuItem[];
-    restaurants: Restaurant[];
-    isLoading: boolean;
-    error: string;
-}
-
-const initialState: State = {
+const initialState: MainLayoutState = {
     menu: [
         {
             title: 'Home',
@@ -22,28 +14,22 @@ const initialState: State = {
             icon: ''
         }
     ],
-    restaurants: [],
+    restaurantList: [],
     isLoading: false,
     error: null
 };
 
-export function mainLayoutReducer(state = initialState, action: MainLayoutActions.MainLayoutActions) {
+export function mainLayoutReducer(state = initialState, action: MainLayoutActions): MainLayoutState {
     switch (action.type) {
-        case MainLayoutActions.FETCH_RESTAURANTS:
+        case GET_RESTAURANT_LIST:
             return {
                 ...state,
                 isLoading: true
             };
-        case MainLayoutActions.FETCH_RESTAURANTS_SUCCESS:
+        case GET_RESTAURANT_LIST_RESPONSE:
             return {
                 ...state,
-                restaurants: [ ...action.payload.restaurants ],
-                isLoading: false,
-                error: null
-            };
-        case MainLayoutActions.HANDLE_ERROR_RESPONSE:
-            return {
-                ...state,
+                restaurantList: [ ...action.payload.restaurantList ],
                 isLoading: false,
                 error: action.payload.error
             };

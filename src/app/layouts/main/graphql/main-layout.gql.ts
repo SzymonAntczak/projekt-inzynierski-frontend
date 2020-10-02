@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
-export const GET_RESTAURANTS = gql`
-  query GetRestaurants {
+export const GQL_GET_RESTAURANT_LIST = gql`
+  query GetRestaurantList {
     restaurants {
       _id,
       name,

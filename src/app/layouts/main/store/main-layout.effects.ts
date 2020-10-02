@@ -4,18 +4,17 @@ import { Apollo } from 'apollo-angular';
 import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
-import { GET_RESTAURANTS } from '../graphql/main-layout.gql';
-import { Restaurant } from '../main.model';
-import * as MainLayoutActions from './main-layout.actions';
+import { GET_RESTAURANT_LIST, GetRestaurantListResponse } from './main-layout.actions';
+import { GQL_GET_RESTAURANT_LIST, GqlRestaurantList } from '../graphql';
 
 @Injectable()
 export class MainLayoutEffects {
     @Effect() fetchRestaurantsEffect = this.actions$.pipe(
-        ofType(MainLayoutActions.FETCH_RESTAURANTS),
-        switchMap(() => this.apollo.watchQuery<{ restaurants: Restaurant[] }>({ query: GET_RESTAURANTS }).valueChanges.pipe(
+        ofType(GET_RESTAURANT_LIST),
+        switchMap(() => this.apollo.watchQuery<GqlRestaurantList>({ query: GQL_GET_RESTAURANT_LIST }).valueChanges.pipe(
             map(response => response.data.restaurants),
-            map(restaurants => new MainLayoutActions.FetchRestaurantsSuccess({ restaurants })),
-            catchError(({ message }) => of(new MainLayoutActions.HandleErrorResponse({ error: message })))
+            map(restaurantList => new GetRestaurantListResponse({ restaurantList, error: null })),
+            catchError(({ message }) => of(new GetRestaurantListResponse({ restaurantList: [], error: message })))
         ))
     );
 
