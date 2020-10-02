@@ -15,7 +15,7 @@ export class MainLayoutEffects {
             map(response => response.data.restaurants)
         )),
         switchMap(restaurantList => of(new GetRestaurantListResponse({ restaurantList, error: null }))),
-        catchError(({ message }) => of(new GetRestaurantListResponse({ restaurantList: [], error: message })))
+        catchError(({ message }: Error) => of(new GetRestaurantListResponse({ restaurantList: [], error: message })))
     );
 
     constructor(private actions$: Actions, private apollo: Apollo) { }
