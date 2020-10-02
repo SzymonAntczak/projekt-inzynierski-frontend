@@ -9,7 +9,7 @@ import { GQL_GET_RESTAURANT_LIST, GqlRestaurantList } from '../graphql';
 
 @Injectable()
 export class MainLayoutEffects {
-    @Effect() fetchRestaurantsEffect = this.actions$.pipe(
+    @Effect() getRestaurantList = this.actions$.pipe(
         ofType(GET_RESTAURANT_LIST),
         switchMap(() => this.apollo.watchQuery<GqlRestaurantList>({ query: GQL_GET_RESTAURANT_LIST }).valueChanges.pipe(
             map(response => response.data.restaurants),
