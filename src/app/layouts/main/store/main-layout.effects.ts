@@ -12,10 +12,10 @@ export class MainLayoutEffects {
     @Effect() getRestaurantList = this.actions$.pipe(
         ofType(GET_RESTAURANT_LIST),
         switchMap(() => this.apollo.watchQuery<GqlRestaurantList>({ query: GQL_GET_RESTAURANT_LIST }).valueChanges.pipe(
-            map(response => response.data.restaurants),
-            map(restaurantList => new GetRestaurantListResponse({ restaurantList, error: null })),
-            catchError(({ message }) => of(new GetRestaurantListResponse({ restaurantList: [], error: message })))
-        ))
+            map(response => response.data.restaurants)
+        )),
+        switchMap(restaurantList => of(new GetRestaurantListResponse({ restaurantList, error: null }))),
+        catchError(({ message }) => of(new GetRestaurantListResponse({ restaurantList: [], error: message })))
     );
 
     constructor(private actions$: Actions, private apollo: Apollo) { }
