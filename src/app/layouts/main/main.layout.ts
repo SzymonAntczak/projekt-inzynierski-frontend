@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
 import { AppState } from 'src/app/app-store';
-import { GqlRestaurantListItem } from './graphql';
-import { GetRestaurantList, MenuItem } from './store';
+import { GetRestaurantList, MainLayoutState } from './store';
 
 @Component({
   selector: 'app-main-layout',
@@ -11,21 +11,15 @@ import { GetRestaurantList, MenuItem } from './store';
   styleUrls: ['./main.layout.scss']
 })
 export class MainLayout implements OnInit {
-  menu: MenuItem[];
-  restaurantList: GqlRestaurantListItem[];
-  isLoading: boolean;
+  mainLayoutState$: Observable<MainLayoutState>;
 
   constructor(private store: Store<AppState>) { }
 
   ngOnInit() {
-    this.store.select('mainLayout').subscribe(mainLayout => {
-      this.menu = mainLayout.menu;
-      this.restaurantList = mainLayout.restaurantList;
-      this.isLoading = mainLayout.isLoading;
-    });
+    this.mainLayoutState$ = this.store.select('mainLayout');
   }
 
-  fetchRestaurants() {
+  getRestaurants() {
     this.store.dispatch(new GetRestaurantList());
   }
 

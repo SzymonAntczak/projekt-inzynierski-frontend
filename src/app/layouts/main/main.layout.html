@@ -1,6 +1,6 @@
-<button mat-raised-button color="primary" (click)="fetchRestaurants()">Pobierz restauracje</button>
+<button mat-raised-button color="primary" (click)="getRestaurants()">Pobierz restauracje</button>
 
-<ng-container *ngFor="let restaurant of restaurantList">
+<ng-container *ngFor="let restaurant of (mainLayoutState$ | async).restaurantList">
     <p>Restauracja: {{ restaurant.name }}, właściciel: {{ restaurant.owner }}</p>
 </ng-container>
 
